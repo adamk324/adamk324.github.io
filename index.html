@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mint >_< </title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        img {
+            image-rendering: auto;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="window" id="main-window">
+        <div class="title-bar main-title-bar">
+            <div class="window-controls">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+            </div>
+            <div class="title-buttons">
+                <button class="title-btn">Mint</button>
+                <span class="divider">|</span>
+                <button class="title-btn">Steam</button>
+                <span class="divider">|</span>
+                <button class="title-btn">PC Specs</button>
+            </div>
+        </div>
+        <div class="main-grid">
+            <div class="button-box">
+                <div class="buttons">
+                    <button onclick="window.open('https://open.spotify.com/playlist/6yTaBKDNPSLzCwOFG6bVp2', '_blank')"><i class="fab fa-spotify"></i> Spotify</button>
+                    <button onclick="window.open('https://discord.com', '_blank')"><i class="fab fa-discord"></i> Discord</button>
+                    <button onclick="window.open('https://github.com/adamk324', '_blank')"><i class="fab fa-github"></i> Github</button>
+                    <button onclick="window.open('https://www.reddit.com/user/Longjumping-Dream-37/', '_blank')"><i class="fab fa-reddit"></i> Reddit</button>
+                    <button onclick="window.open('https://www.tiktok.com/@mint_adam0', '_blank')"><i class="fab fa-tiktok"></i> Tiktok</button>
+                    <button onclick="window.open('https://www.youtube.com/@Mint9943-m1i', '_blank')"><i class="fab fa-youtube"></i> Youtube</button>
+                    <button onclick="window.open('https://hu.pinterest.com/Mint0Adam0/', '_blank')"><i class="fab fa-pinterest"></i> Pinterest</button>
+                </div>
+            </div>
+            <div class="image-box" id="image-box">
+                <img id="game-img" />
+                <span id="game-title"></span>
+            </div>
+            <div class="text-box">
+                <span>Hey Fellow Stranger! it looks like you got to my page! go on explore it and enjoy your time here :)</span>
+            </div>
+            <div class="detail-box">
+                <div class="vertical-label">If you want to ask something you can here on steam or anywhere you want :3</div>
+            </div>
+        </div>
+    </div>
+    <div class="window secondary-window" id="secondary-window" style="display:none;">
+        <div class="title-bar secondary-title-bar">
+            <div class="window-controls">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+            </div>
+            <div class="title-buttons">
+                <button class="title-btn" id="close-secondary">Close</button>
+                <span class="divider">|</span>
+                <span class="title-btn">Steam Profile</span>
+            </div>
+        </div>
+        <div class="main-grid">
+            <div class="button-box">
+                <div class="buttons">
+                    <button onclick="window.open('https://steamcommunity.com/profiles/76561199141123828/', '_blank')">
+                        <i class="fab fa-steam"></i> Steam
+                    </button>
+                    <button onclick="window.open('https://discord.com/', '_blank')">
+                        <i class="fab fa-discord"></i> Discord
+                    </button>
+                    <button onclick="window.open('https://github.com/', '_blank')">
+                        <i class="fab fa-github"></i> Github
+                    </button>
+                </div>
+            </div>
+            <div class="image-box" style="flex-direction:column;">
+                <img src="https://avatars.cloudflare.steamstatic.com/8c7e0e1e9e2e0c1b5e7f8e8e8e8e8e8e8e8e8e8_full.jpg" alt="Profile" style="width:120px;height:120px;border-radius:50%;margin-bottom:10px;">
+                <span style="font-size:2em;">Your Steam Name</span>
+            </div>
+            <div class="text-box">
+                <span>Profile Info:<br>Level, Badges, etc.</span>
+            </div>
+            <div class="detail-box">
+                <div class="vertical-label">PROFILE</div>
+            </div>
+        </div>
+    </div>
+    <div class="window" id="easter-egg-window" style="display:none; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:100;">
+        <div class="title-bar" id="easter-egg-title-bar">
+            <div class="window-controls">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+            </div>
+            <div class="title-buttons">
+                <span class="title-btn">I Love You ❤❤❤</span>
+            </div>
+        </div>
+        <div class="main-grid" style="height: 180px;">
+            <div class="image-box" style="flex-direction:column; justify-content:center;">
+                <span style="font: size 0.2em;">I Love You Benji ❤❤❤❤</span>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Make both windows draggable by their own title bars and center them by default
+        function makeDraggable(windowEl, titleBarEl) {
+            let isDragging = false, offsetX = 0, offsetY = 0;
+
+            titleBarEl.style.cursor = "move";
+            windowEl.style.position = "absolute";
+
+            function onMouseMove(e) {
+                if (isDragging) {
+                    windowEl.style.left = `${e.clientX - offsetX}px`;
+                    windowEl.style.top = `${e.clientY - offsetY}px`;
+                }
+            }
+
+            function onMouseUp() {
+                isDragging = false;
+                document.body.style.userSelect = "";
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            }
+
+            titleBarEl.addEventListener('mousedown', function(e) {
+                // Only start drag if clicking directly on the title bar, not on its children
+                if (e.target !== titleBarEl) return;
+
+                const rect = windowEl.getBoundingClientRect();
+                windowEl.style.transform = "";
+                windowEl.style.left = rect.left + window.scrollX + "px";
+                windowEl.style.top = rect.top + window.scrollY + "px";
+
+                isDragging = true;
+                offsetX = e.clientX - rect.left;
+                offsetY = e.clientY - rect.top;
+                document.body.style.userSelect = "none";
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+            });
+        }
+
+        // Usage for both windows:
+        makeDraggable(
+            document.getElementById('main-window'),
+            document.querySelector('.main-title-bar')
+        );
+        makeDraggable(
+            document.getElementById('secondary-window'),
+            document.querySelector('.secondary-title-bar')
+        );
+
+        // Save the original main-grid HTML
+        const originalMainGrid = document.querySelector('.main-grid').innerHTML;
+
+        // Show secondary window centered
+        document.querySelector('.title-btn').onclick = function() {
+            document.querySelector('.main-grid').innerHTML = `
+                <div class="button-box">
+                    <div class="buttons">
+                        <button id="revert-btn"><i class="fas fa-arrow-left"></i> Revert</button>
+                        <button onclick="window.open('https://steamcommunity.com/profiles/76561199141123828/', '_blank')">
+                            <i class="fab fa-steam"></i> Steam
+                        </button>
+                        <button onclick="window.open('https://discord.com/', '_blank')">
+                            <i class="fab fa-discord"></i> Discord
+                        </button>
+                        <button onclick="window.open('https://github.com/', '_blank')">
+                            <i class="fab fa-github"></i> Github
+                        </button>
+                    </div>
+                </div>
+                <div class="image-box profile-image-box">
+                    <img src="https://avatars.akamai.steamstatic.com/6854a086bf20231b7b63358c15b7b22d66c11c0b_full.jpg" alt="Profile" style="width:120px;height:120px;border-radius:50%;margin-bottom:10px;">
+                    <span style="font-size:2em;margin-top:10px;">About Me</span>
+                </div>
+                <div class="text-box profile-text-box">
+                    <span style="font-size:1.2em;display:block;text-align:center;">
+                        <b>Name: Mint (Adam)<br>
+                        <b>Sexuality:</b>Bisexual Male<br>
+                        <b>Hobby:</b>Coding, Gaming, content Creating<br>
+                        <b>Fav Game:</b>GTA 5, Minecraft<br>
+                        <b>In Relationship?:</b>Yes, With my Great and loveable Hubby ❤❤❤<br>
+                    </span>
+                </div>
+                <div class="detail-box">
+                    <div>Im Friendly so you can friend me on steam or whatever social media you want :3 have a nice day/night/week :)</div>
+                </div>
+            `;
+            // Add revert button handler
+            document.getElementById('revert-btn').onclick = function() {
+                document.querySelector('.main-grid').innerHTML = originalMainGrid;
+                startSlideshow(); // restart the slideshow if needed
+            };
+        };
+        document.querySelectorAll('.title-btn')[1].onclick = function() {
+    document.querySelector('.main-grid').innerHTML = `
+        <div class="button-box">
+            <div class="buttons">
+                <button id="revert-btn"><i class="fas fa-arrow-left"></i> Revert</button>
+            </div>
+        </div>
+        <div class="image-box profile-image-box" style="grid-column: span 2; flex-direction:column; align-items:center; justify-content:center;">
+            <span style="font-size:1.5em; margin-bottom:20px;">Sadly i cannot implement my steam profile here But if you click the button bellow you can access it :3 <br>Click below to open my profile:</span>
+            <button onclick="window.open('https://steamcommunity.com/profiles/76561199141123828/', '_blank')" style="margin-top:20px; font-size:1.1em; padding:10px 24px; border-radius:8px; border:1px solid #bbb; background:#fff; cursor:pointer;">
+                <i class="fab fa-steam"></i> Open Steam Profile
+            </button>
+        </div>
+
+    `;
+    // Add revert button handler
+    document.getElementById('revert-btn').onclick = function() {
+        document.querySelector('.main-grid').innerHTML = originalMainGrid;
+        startSlideshow(); // restart the slideshow if needed
+    };
+};
+        document.querySelectorAll('.title-btn')[2].onclick = function() {
+    document.querySelector('.main-grid').innerHTML = `
+        <div class="button-box">
+            <div class="buttons">
+                <button id="revert-btn"><i class="fas fa-arrow-left"></i> Revert</button>
+            </div>
+        </div>
+        <div class="image-box profile-image-box" style="flex-direction:column; align-items:center; justify-content:center;">
+            <span style="font-size:1.5em; margin-bottom:12px;">My PC Setup</span>
+            <img src="images/Case.png" alt="PC" style="width:220px; border-radius:10px; margin-bottom:10px;">
+        </div>
+        <div class="text-box profile-text-box">
+            <span style="font-size:1.1em;">
+                <b>CPU:</b> Intel Xeon E3 1220<br>
+                <b>GPU:</b> Asus Strix GTX 950 2GB OC DirectCUII<br>
+                <b>RAM:</b> 8GB DDR3 1333mhz<br>
+                <b>Storage:</b> 256GB SSD, 3x500GB HDD<br>
+                <b>Monitor:</b> Samsung Syncmaster E1920<br>
+                <b>Keyboard:</b> Logitech K120<br>
+                <b>Mouse:</b> Some Random Dell XDD<br>
+                <b>Headset:</b> none <br>
+                <b>Operating System:</b> Windows 10, Fedora<br>
+                <b>Other:</b> Some generic speakers<br>
+            </span>
+        </div>
+        <div class="detail-box">
+            <div class="vertical-label">Its Not Mutch but does its job!</div>
+        </div>
+    `;
+    // Add revert button handler
+    document.getElementById('revert-btn').onclick = function() {
+        document.querySelector('.main-grid').innerHTML = originalMainGrid;
+        startSlideshow(); // restart the slideshow if needed
+    };
+};
+        document.getElementById('close-secondary').onclick = function() {
+            document.getElementById('secondary-window').style.display = 'none';
+        };
+    </script>
+    <script>
+const steamId = "76561199141123828";
+const apiUrl = `https://steamcommunity.com/profiles/${steamId}/games?tab=all&xml=1`;
+
+async function fetchGames() {
+    // Use a CORS proxy since Steam blocks direct browser requests
+    const proxy = "https://corsproxy.io/?";
+    const resp = await fetch(proxy + encodeURIComponent(apiUrl));
+    const xml = await resp.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xml, "text/xml");
+    const games = [...doc.querySelectorAll("game")].map(game => ({
+        name: game.querySelector("name").textContent,
+        appid: game.querySelector("appID").textContent
+    }));
+    return games;
+}
+
+function getGameImgUrl(appid) {
+    // Steam header image pattern
+    return `https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/header.jpg`;
+}
+
+async function startSlideshow() {
+    const box = document.getElementById("image-box");
+    const img = document.getElementById("game-img");
+    const title = document.getElementById("game-title");
+    let games = [];
+    try {
+        games = await fetchGames();
+    } catch {
+        title.textContent = "Could not load games";
+        return;
+    }
+    if (!games.length) {
+        title.textContent = "No games found";
+        return;
+    }
+    let idx = 0;
+    function showGame(i) {
+        title.textContent = games[i].name;
+        img.src = getGameImgUrl(games[i].appid);
+        img.style.display = "block";
+    }
+    showGame(idx);
+    setInterval(() => {
+        idx = (idx + 1) % games.length;
+        showGame(idx);
+    }, 2500);
+}
+startSlideshow();
+</script>
+<script>
+// Easter egg: Show window if "Hubby" is typed anywhere
+let buffer = "";
+document.addEventListener('keydown', function(e) {
+    if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA") return;
+    buffer += e.key;
+    if (buffer.length > 5) buffer = buffer.slice(-5);
+    if (buffer.toLowerCase() === "hubby") {
+        const egg = document.getElementById('easter-egg-window');
+        egg.style.display = 'block';
+        egg.style.left = "50%";
+        egg.style.top = "50%";
+        egg.style.transform = "translate(-50%, -50%)";
+        document.getElementById('easter-egg-input').focus();
+        buffer = "";
+    }
+});
+
+// Make the easter egg window draggable
+(function() {
+    const windowEl = document.getElementById('easter-egg-window');
+    const titleBar = document.getElementById('easter-egg-title-bar');
+    let isDragging = false, offsetX = 0, offsetY = 0;
+
+    titleBar.style.cursor = "move";
+    windowEl.style.position = "absolute";
+
+    function onMouseMove(e) {
+        if (isDragging) {
+            windowEl.style.left = `${e.clientX - offsetX}px`;
+            windowEl.style.top = `${e.clientY - offsetY}px`;
+        }
+    }
+
+    function onMouseUp() {
+        isDragging = false;
+        document.body.style.userSelect = "";
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+    }
+
+    titleBar.addEventListener('mousedown', function(e) {
+        if (e.target !== titleBar) return;
+        const rect = windowEl.getBoundingClientRect();
+        windowEl.style.transform = "";
+        windowEl.style.left = rect.left + window.scrollX + "px";
+        windowEl.style.top = rect.top + window.scrollY + "px";
+        isDragging = true;
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        document.body.style.userSelect = "none";
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+    });
+})();
+document.querySelector('#easter-egg-window .dot.red').onclick = function() {
+    document.getElementById('easter-egg-window').style.display = 'none';
+};
+</script>
+<script>
+let mainCloseClicked = false;
+document.querySelector('#main-window .dot.red').onclick = function() {
+    if (!mainCloseClicked) {
+        alert("if i were you i wouldnt do that");
+        mainCloseClicked = true;
+    } else {
+        window.close();
+        // If window.close() fails (not opened by script), hide the window as fallback
+        document.getElementById('main-window').style.display = 'none';
+    }
+};
+</script>
+</body>
+</html>
